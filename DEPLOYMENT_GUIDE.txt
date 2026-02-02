@@ -1,0 +1,233 @@
+================================================================================
+DOCUMENT & BILL VERIFICATION PORTAL DEPLOYMENT GUIDE
+================================================================================
+
+This guide explains how to deploy the Document & Bill Verification Portal
+on your cPanel shared hosting environment.
+
+================================================================================
+PREREQUISITES
+================================================================================
+
+1. cPanel hosting with PHP 8.0+ support
+2. MySQL database (your existing website database)
+3. Access to phpMyAdmin
+4. FTP/File Manager access
+5. Existing 'admins' table in your database
+
+================================================================================
+STEP 1: UPLOAD FILES
+================================================================================
+
+1. Connect to your hosting via FTP or use cPanel File Manager
+2. Navigate to your public_html folder (or your website root)
+3. Create a folder named 'verification' (if not already created)
+4. Upload the entire contents of the 'verification' folder to this location
+
+Your file structure should be:
+    public_html/
+    ├── (your existing website files)
+    └── verification/
+        ├── admin/
+        ├── config/
+        ├── database/
+        ├── includes/
+        ├── public/
+        ├── uploads/
+        ├── .htaccess
+        └── index.php
+
+================================================================================
+STEP 2: SET FILE PERMISSIONS
+================================================================================
+
+Set the following permissions using cPanel File Manager or FTP:
+
+1. Folders:
+   - verification/uploads/documents/ -> 755
+   - verification/uploads/bills/ -> 755
+
+2. Config files (for security):
+   - verification/config/* -> 644
+
+3. All PHP files -> 644
+4. All directories -> 755
+
+================================================================================
+STEP 3: CONFIGURE DATABASE CONNECTION
+================================================================================
+
+1. Open: verification/config/db.php
+
+2. Update these lines with your EXISTING database credentials:
+
+   define('DB_HOST', 'localhost');
+   define('DB_NAME', 'your_existing_database_name');   // <-- Your database name
+   define('DB_USER', 'your_database_username');        // <-- Your DB username
+   define('DB_PASS', 'your_database_password');        // <-- Your DB password
+
+   IMPORTANT: Use the SAME database as your main website!
+
+================================================================================
+STEP 4: IMPORT NEW TABLES (CRITICAL)
+================================================================================
+
+IMPORTANT: This step adds ONLY new tables. It does NOT modify existing tables.
+
+1. Log in to cPanel
+2. Open phpMyAdmin
+3. Select your existing database
+4. Click on the 'Import' tab
+5. Click 'Choose File' and select: verification/database/ver_tables.sql
+6. Click 'Go' to import
+
+This will create the following NEW tables with 'ver_' prefix:
+   - ver_documents
+   - ver_bills
+   - ver_otp_requests
+   - ver_verification_logs
+   - ver_admin_logs
+
+Your existing tables (including 'admins') remain UNCHANGED.
+
+================================================================================
+STEP 5: CONFIGURE EMAIL SETTINGS
+================================================================================
+
+1. Open: verification/config/mail.php
+
+2. Update the email settings:
+
+   define('MAIL_FROM_EMAIL', 'noreply@yourdomain.com');
+   define('MAIL_FROM_NAME', 'Company Verification Portal');
+   define('MAIL_REPLY_TO', 'info@yourdomain.com');
+
+3. Make sure your hosting supports PHP mail() function
+   (Most cPanel hosts support this by default)
+
+================================================================================
+STEP 6: VERIFY ADMINS TABLE COMPATIBILITY
+================================================================================
+
+The verification portal uses your EXISTING 'admins' table. Ensure it has:
+
+Required columns:
+   - id (INT, PRIMARY KEY)
+   - name (VARCHAR)
+   - email (VARCHAR) - used for login
+   - password (VARCHAR) - must be hashed with password_hash()
+   - status (VARCHAR or INT) - 'active' or 1 for active accounts
+
+If your admins table has different column names, you may need to:
+   - Adjust the SQL queries in admin/login.php
+   - Or create aliases in your database
+
+================================================================================
+STEP 7: TEST THE INSTALLATION
+================================================================================
+
+1. Test Admin Login:
+   - Go to: https://yourdomain.com/verification/admin/login.php
+   - Log in using your existing admin credentials
+   - You should see the admin dashboard
+
+2. Test Document Verification:
+   - Go to: https://yourdomain.com/verification/
+   - Click "Verify Document"
+   - Search for a test document (add one first from admin)
+
+3. Test OTP Email:
+   - Search for a document/bill
+   - Enter your email
+   - Check if OTP email is received
+   - Verify the OTP
+
+4. Test Document Viewer:
+   - After OTP verification, ensure document displays correctly
+   - Verify watermark is visible
+   - Confirm right-click is disabled
+
+================================================================================
+STEP 8: PRODUCTION SECURITY CHECKLIST
+================================================================================
+
+[ ] Update db.php with production credentials
+[ ] Verify .htaccess files are in place and working
+[ ] Enable HTTPS redirect in verification/.htaccess
+[ ] Test file upload restrictions (only PDF, JPG, PNG allowed)
+[ ] Verify uploads folder is not directly accessible
+[ ] Test rate limiting is working
+[ ] Review PHP error logging settings
+[ ] Set display_errors to Off in PHP
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+PROBLEM: "Database connection failed"
+SOLUTION:
+   - Verify database credentials in config/db.php
+   - Ensure database server is accessible
+   - Check if your database user has proper permissions
+
+PROBLEM: "Admin login fails"
+SOLUTION:
+   - Verify your admins table has the correct structure
+   - Ensure password is hashed with password_hash()
+   - Check that admin status is 'active' or 1
+
+PROBLEM: "OTP email not received"
+SOLUTION:
+   - Check spam/junk folder
+   - Verify MAIL_FROM_EMAIL is a valid domain email
+   - Contact your host to enable PHP mail()
+   - Consider using SMTP instead (requires code modification)
+
+PROBLEM: "File upload fails"
+SOLUTION:
+   - Check folder permissions (755)
+   - Verify PHP upload_max_filesize >= 5M
+   - Verify PHP post_max_size >= 6M
+
+PROBLEM: "Direct access to uploads folder"
+SOLUTION:
+   - Ensure uploads/.htaccess is in place
+   - Check if mod_rewrite is enabled
+
+PROBLEM: "500 Internal Server Error"
+SOLUTION:
+   - Check PHP error logs
+   - Verify PHP version is 8.0+
+   - Check .htaccess syntax
+
+================================================================================
+URLS REFERENCE
+================================================================================
+
+Public Pages:
+   - Home: /verification/
+   - Verify Document: /verification/public/verify-document.php
+   - Verify Bill: /verification/public/verify-bill.php
+
+Admin Pages:
+   - Login: /verification/admin/login.php
+   - Dashboard: /verification/admin/dashboard.php
+   - Add Document: /verification/admin/add-document.php
+   - Manage Documents: /verification/admin/manage-documents.php
+   - Add Bill: /verification/admin/add-bill.php
+   - Manage Bills: /verification/admin/manage-bills.php
+   - Verification Logs: /verification/admin/verification-logs.php
+
+================================================================================
+SUPPORT
+================================================================================
+
+For technical issues:
+   - Review this guide
+   - Check PHP error logs in cPanel
+   - Verify database connectivity
+   - Test with a simple PHP info page
+
+================================================================================
+END OF DEPLOYMENT GUIDE
+================================================================================

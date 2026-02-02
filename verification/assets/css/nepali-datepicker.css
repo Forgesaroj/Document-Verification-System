@@ -1,0 +1,381 @@
+/**
+ * Nepali Date Picker - Calendar Style
+ * Trishakti Apparel Verification Portal
+ */
+
+/* Display Panel */
+.nepali-dp-display {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #fff;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nepali-dp-display:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.nepali-dp-dates {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.nepali-dp-bs, .nepali-dp-ad {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.nepali-dp-label {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.nepali-dp-bs .nepali-dp-value {
+    font-weight: 600;
+    color: #2563eb;
+}
+
+.nepali-dp-ad .nepali-dp-value {
+    font-weight: 600;
+    color: #059669;
+}
+
+.nepali-dp-sep {
+    color: #d1d5db;
+}
+
+.nepali-dp-arrow {
+    color: #3b82f6;
+    transition: transform 0.2s;
+    font-size: 16px;
+}
+
+.nepali-dp-arrow.rotate-180 {
+    transform: rotate(180deg);
+}
+
+/* Panel Container */
+.nepali-dp-panel {
+    position: absolute;
+    z-index: 1000;
+    margin-top: 8px;
+    width: 320px;
+    min-width: 300px;
+    background: #fff;
+    border: 2px solid #3b82f6;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    padding: 16px;
+}
+
+.nepali-dp-panel.hidden {
+    display: none;
+}
+
+/* Toggle Buttons */
+.nepali-dp-toggle {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.nepali-dp-btn-bs, .nepali-dp-btn-ad {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 13px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.nepali-dp-btn-bs {
+    background: #e5e7eb;
+    color: #4b5563;
+}
+
+.nepali-dp-btn-bs:hover {
+    background: #d1d5db;
+}
+
+.nepali-dp-btn-bs.active {
+    background: #2563eb;
+    color: #fff;
+}
+
+.nepali-dp-btn-ad {
+    background: #e5e7eb;
+    color: #4b5563;
+}
+
+.nepali-dp-btn-ad:hover {
+    background: #d1d5db;
+}
+
+.nepali-dp-btn-ad.active {
+    background: #059669;
+    color: #fff;
+}
+
+/* Calendar Container */
+.nepali-dp-calendar {
+    padding: 8px 0;
+}
+
+/* Calendar Header */
+.ndp-cal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.ndp-nav-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: #f3f4f6;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #4b5563;
+    transition: all 0.2s;
+}
+
+.ndp-nav-btn:hover {
+    background: #e5e7eb;
+    color: #1f2937;
+}
+
+.ndp-month-year {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ndp-month-sel, .ndp-year-sel {
+    padding: 6px 8px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    background: #fff;
+    color: #1f2937;
+}
+
+.ndp-month-sel:focus, .ndp-year-sel:focus {
+    outline: none;
+    border-color: #3b82f6;
+}
+
+.ndp-month-sel {
+    min-width: 100px;
+}
+
+.ndp-year-sel {
+    width: 75px;
+}
+
+/* Weekdays */
+.ndp-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    margin-bottom: 8px;
+}
+
+.ndp-weekday {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: #6b7280;
+    padding: 6px 0;
+    text-transform: uppercase;
+}
+
+.ndp-weekday.sat {
+    color: #dc2626;
+}
+
+.ndp-weekday.sun {
+    color: #dc2626;
+}
+
+/* Days Grid */
+.ndp-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+}
+
+.ndp-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: #1f2937;
+}
+
+.ndp-day:not(.empty):hover {
+    background: #e5e7eb;
+}
+
+.ndp-day.empty {
+    cursor: default;
+}
+
+.ndp-day.sat {
+    color: #dc2626;
+}
+
+.ndp-day.sun {
+    color: #dc2626;
+}
+
+.ndp-day.selected {
+    background: #2563eb;
+    color: #fff !important;
+}
+
+.ndp-day.selected:hover {
+    background: #1d4ed8;
+}
+
+/* Footer */
+.nepali-dp-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.nepali-dp-today {
+    padding: 8px 12px;
+    background: #f3f4f6;
+    color: #4b5563;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.nepali-dp-today:hover {
+    background: #e5e7eb;
+}
+
+.nepali-dp-apply {
+    padding: 8px 16px;
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.nepali-dp-apply:hover {
+    background: #1d4ed8;
+}
+
+/* Container positioning */
+[id$="_datepicker"] {
+    position: relative;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .nepali-dp-dates {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
+    .nepali-dp-sep {
+        display: none;
+    }
+
+    .nepali-dp-panel {
+        width: 100%;
+        min-width: auto;
+        left: 0;
+        right: 0;
+    }
+
+    .nepali-dp-toggle {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .nepali-dp-btn-bs, .nepali-dp-btn-ad {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .ndp-month-year {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .ndp-month-sel {
+        min-width: 80px;
+        font-size: 12px;
+    }
+
+    .ndp-year-sel {
+        width: 65px;
+        font-size: 12px;
+    }
+
+    .ndp-day {
+        font-size: 12px;
+    }
+
+    .ndp-weekday {
+        font-size: 10px;
+    }
+
+    .nepali-dp-footer {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .nepali-dp-today, .nepali-dp-apply {
+        width: 100%;
+        justify-content: center;
+    }
+}

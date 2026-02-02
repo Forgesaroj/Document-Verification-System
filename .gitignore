@@ -1,0 +1,83 @@
+# Environment & Configuration
+.env
+.env.local
+.env.*.local
+verification/config/db.php
+
+# Uploaded files (keep directory structure)
+verification/uploads/documents/*
+verification/uploads/bills/*
+!verification/uploads/documents/.gitkeep
+!verification/uploads/bills/.gitkeep
+!verification/uploads/.htaccess
+
+# Branding & user-uploaded assets (keep .htaccess)
+verification/uploads/logo.*
+verification/uploads/favicon.*
+verification/uploads/*.pdf
+verification/uploads/*.docx
+verification/uploads/*.png
+verification/uploads/*.jpg
+verification/uploads/*.jpeg
+
+# Keep nepalidate data files
+!verification/uploads/nepalidate.json
+!verification/uploads/nepalidate.xml
+
+# IDE & Editor
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.project
+.settings/
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Logs
+*.log
+logs/
+error_log
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.cache/
+tmp/
+
+# Dependencies
+vendor/
+node_modules/
+composer.lock
+package-lock.json
+
+# Build artifacts
+dist/
+build/
+
+# Backups
+*.bak
+*.backup
+*_backup/
+
+# Development
+Webpage_temp/
+test/
+tests/
+
+# Session files
+sess_*
+
+# Other
+*.sql.gz
+*.zip
+*.tar.gz

@@ -1,0 +1,6 @@
+bill_number,bill_date_bs,bill_type,vendor_name,pan_number,is_non_pan,non_pan_amount,bill_amount,remarks
+BILL-2081-001,2081-10-15,general,ABC Supplies Pvt Ltd,123456789,0,,15000.00,Office supplies purchase
+BILL-2081-002,2081-10-16,vat,XYZ Trading,987654321,0,,25000.00,Raw materials
+BILL-2081-003,2081-10-17,purchase,Local Shop,,1,5000.00,5000.00,Non-PAN purchase
+BILL-2081-004,2081-10-18,expense,Nepal Telecom,301234567,0,,2500.00,Internet bill
+BILL-2081-005,2081-10-19,sales,Customer ABC,,0,,50000.00,Sales invoice
